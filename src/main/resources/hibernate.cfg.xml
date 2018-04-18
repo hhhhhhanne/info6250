@@ -7,14 +7,39 @@
     <!-- 配置连接数据库的基本信息 -->
     <!--mysql驱动-->
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="connection.url">jdbc:mysql://127.0.0.1:3306/xiaohandb</property>
-
+    <property name="connection.url">jdbc:mysql://localhost:3306/spring</property>
+    <!--<property name="hbm2ddl.auto">update</property>-->
+    <property name="connection.username">root</property>
+    <property name="connection.password">root</property>
     <!-- 配置 Hibernate 的基本信息 -->
     <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
     <property name="show_sql">true</property>
     <property name="format_sql">true</property>
+    <mapping class="com.neu.pojo.Users"/>
+    <mapping resource="com/neu/pojo/Users.hbm.xml"/>
+    <mapping class="com.neu.pojo.Food"/>
+    <mapping resource="com/neu/pojo/Food.hbm.xml"/>
+    <mapping class="com.neu.pojo.Orders"/>
+    <mapping resource="com/neu/pojo/Orders.hbm.xml"/>
+    <mapping class="com.neu.pojo.Orderdetail"/>
+    <mapping resource="com/neu/pojo/Orderdetail.hbm.xml"/>
+    <mapping class="com.neu.pojo.Types"/>
+    <mapping resource="com/neu/pojo/Types.hbm.xml"/>
+
+    <!--<mapping resource="com/neu/pojo/Food.hbm.xml"/>-->
+
+    <!--<mapping resource="com/neu/pojo/Orders.hbm.xml"/>-->
+
+    <!--<mapping resource="com/neu/pojo/Orderdetail.hbm.xml"/>-->
+
+    <!--<mapping resource="com/neu/pojo/Types.hbm.xml"/>-->
+    <!--<mapping class="com.neu.pojo.Users"/>-->
+    <!--<mapping resource="com/neu/pojo/Users.hbm.xml"/>-->
+
     <!-- 指定自动生成数据表的策略 -->
-    <property name="hbm2ddl.auto">update</property>
+
+<!---->
+
 
   </session-factory>
 </hibernate-configuration>

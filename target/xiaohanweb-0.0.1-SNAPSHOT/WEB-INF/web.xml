@@ -5,10 +5,6 @@
           http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
   <display-name>xiaohan-web</display-name>
-  <!--welcome pages-->
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
 
   <!-- 把 Spring 容器集成到 Web 应用里面 -->
   <listener>
@@ -39,6 +35,19 @@
     <servlet-name>springMVC</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  <!-- Captcha servlet -->
+  <servlet>
+    <servlet-name>BotDetect Captcha</servlet-name>
+    <servlet-class>com.captcha.botdetect.web.servlet.CaptchaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BotDetect Captcha</servlet-name>
+    <url-pattern>/botdetectcaptcha</url-pattern>
+  </servlet-mapping>
+  <!--welcome pages-->
+  <welcome-file-list>
+    <welcome-file>/</welcome-file>
+  </welcome-file-list>
 
   <filter>
     <filter-name>CharacterEncodingFilter</filter-name>

@@ -7,7 +7,7 @@
     <packaging>war</packaging>
 
     <properties>
-        <spring.version>4.3.16.RELEASE</spring.version>
+        <spring.version>4.3.3.RELEASE</spring.version>
         <hibernate.version>5.2.10.Final</hibernate.version>
         <junit.version>4.12</junit.version>
         <slf4j.version>1.6.4</slf4j.version>
@@ -25,7 +25,24 @@
         <c3p0Version>0.9.1.2</c3p0Version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>captcha</id>
+            <name>BotDetect Captcha Repository</name>
+            <url>https://git.captcha.com/maven.git/blob_plain/HEAD:/</url>
+        </repository>
+    </repositories>
     <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.captcha</groupId>
+            <artifactId>botdetect-jsp20</artifactId>
+            <version>4.0.beta3.2</version>
+        </dependency>
         <!-- 单元测试 -->
         <dependency>
             <groupId>junit</groupId>
@@ -199,6 +216,22 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 

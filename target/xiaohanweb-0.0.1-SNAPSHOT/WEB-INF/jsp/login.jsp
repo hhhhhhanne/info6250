@@ -17,8 +17,8 @@
 <form action="${contextPath}/user/login.htm" method="post">
     <table>
         <tr>
-            <td>Email:</td>
-            <td><input type="email" name="username" size="30" required="required"/></td>
+            <td>username:</td>
+            <td><input name="username" size="30" required="required"/></td>
         </tr>
 
         <tr>
