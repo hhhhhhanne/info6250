@@ -13,7 +13,7 @@
         <many-to-one name="food" class="com.neu.pojo.Food" fetch="select">
             <column name="foodId" />
         </many-to-one>
-        <many-to-one name="order" class="com.neu.pojo.Order" fetch="select">
+        <many-to-one name="order" class="com.neu.pojo.Orders" fetch="select">
             <column name="orderId" />
         </many-to-one>
         <property name="nums" type="java.lang.Integer">

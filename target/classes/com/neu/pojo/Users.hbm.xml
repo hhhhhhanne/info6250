@@ -28,6 +28,9 @@
         <property name="level" type="java.lang.Integer">
             <column name="level" />
         </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="status"/>
+        </property>
         <set name="orders" inverse="true">
             <key>
                 <column name="usersId" />

@@ -12,6 +12,9 @@
     <title>Title</title>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/">Back to index</a>
 <a href="${pageContext.request.contextPath}/logout.htm">LogOut</a>
+<a href="${pageContext.request.contextPath}/viewMyOrder.htm">View My Order</a>
+
 </body>
 </html>

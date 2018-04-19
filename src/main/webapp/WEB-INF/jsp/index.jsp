@@ -52,10 +52,10 @@
                             </li></c:otherwise>
                         </c:choose>
                         <li class="head-dpdn">
-                            <a href="offers.html"><i class="fa fa-gift" aria-hidden="true"></i> Service</a>
+                            <a href="#"><i class="fa fa-gift" aria-hidden="true"></i> Service</a>
                         </li>
                         <li class="head-dpdn">
-                            <a href="help.html"><i class="fa fa-question-circle" aria-hidden="true"></i> Help</a>
+                            <a href="#"><i class="fa fa-question-circle" aria-hidden="true"></i> Help</a>
                         </li>
                     </ul>
                 </div>
@@ -78,13 +78,12 @@
                             <!-- Mega Menu -->
                             <li class="dropdown">
                                 <a href="${pageContext.request.contextPath}/menu.htm" >Menu </a>
+                            </li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="${pageContext.request.contextPath}/viewMyOrder.htm">My Order</a>
 
                             </li>
-                            <li><a href="about.html">About</a></li>
-                            <li class="w3pages"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Order</a>
-
-                            </li>
-                            <li><a href="contact.html">Contact us</a></li>
+                            <li><a href="#">Contact us</a></li>
                         </ul>
                     </div>
                     <div class="cart cart box_1">
@@ -105,12 +104,12 @@
         <div class="container">
             <h2>Live for love and love for food.<br> <span>best chefs for you.</span></h2>
             <div class="agileits_search">
-                <form action="selectByNameOrType_Food" method="post">
+                <form action="${pageContext.request.contextPath}/selectByName.htm" method="post">
                     <input name="name" type="text" placeholder="search for food" >
                     <select id="agileinfo_search" name="typesId" required>
                         <option value="0">All</option>
-                        <c:forEach var="t" items="${tlist }">
-                            <option value="${t.id }">${t.name }</option>
+                        <c:forEach var="t" items="${requestScope.typeList}">
+                            <option value="${t.id}">${t.name}</option>
                         </c:forEach>
                     </select>
                     <input type="submit" value="Search">

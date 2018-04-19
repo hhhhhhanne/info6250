@@ -1,5 +1,8 @@
 package com.neu.pojo;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -125,4 +128,19 @@ public class Food implements java.io.Serializable {
 		this.orderdetails = orderdetails;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Food)) return false;
+
+		Food food = (Food) o;
+
+		if (id != null ? !id.equals(food.id) : food.id != null) return false;
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.id.hashCode();
+	}
 }

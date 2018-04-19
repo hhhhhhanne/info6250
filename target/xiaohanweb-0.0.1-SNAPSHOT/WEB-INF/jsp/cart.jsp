@@ -19,13 +19,32 @@
 <body>
 cart
 <table>
+    <tr>
+        <th>
+            name
+        </th>
+        <th>
+            price
+        </th>
+        <th>
+            quantity
+        </th>
+        <th>
+
+        </th>
+        <th>
+
+        </th>
+    </tr>
     <c:forEach items="${sessionScope.foodInCart}" var="f">
         <tr>
-            <td>${f.key}</td>
+            <td>${f.key.name}</td>
+            <td>${f.key.price}</td>
             <c:set var="food" value="${f.key.id}"/>
-            <form action="${pageContext.request.contextPath}/updateQuantity.htm?food=${food}" method="post">
-                <td>quantity: <input type="number" name="quantity" value="${f.value}"/></td>
-                <td><input type="submit" value="update"></td>
+            <form action="${pageContext.request.contextPath}/updateQuantity.htm?" method="get">
+                <td> <input type="number" name="quantity" value="${f.value}"/>
+                <input type="hidden" name="food" value="${food}"></td>
+                <td><input type="submit" value="update quantity"></td>
             </form>
             <td><a href="${pageContext.request.contextPath}/delete.htm?food=${food}">delete</a></td>
         </tr>
@@ -44,6 +63,7 @@ cart
         out.print(total);
     %></p>
 <form method="post" action="checkout.htm">
+    <label>Address:</label>
     <input type="text" name="address"/>
     <input type="submit" value="Check Out"/>
 </form>

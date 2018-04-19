@@ -6,10 +6,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class IndexController {
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String showIndex(){
+    public String showIndex(ModelMap map,FoodDAO foodDAO){
+        map.addAttribute("foodlist",foodDAO.getFoodList());
+        map.addAttribute("typesList",foodDAO.getTypesList());
         return "index";
     }
 
@@ -19,9 +23,16 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/menu.htm",method = RequestMethod.GET)
-    public String showMenu(ModelMap map, FoodDAO foodDAO){
-        map.addAttribute("foodlist",foodDAO.getFoodList());
-        return "menu";
+    public String showMenu(ModelMap map, FoodDAO foodDAO, HttpServletRequest request){
+        if (request.getParameter("type")==null){
+            map.addAttribute("foodlist",foodDAO.getFoodList());
+            map.addAttribute("typesList",foodDAO.getTypesList());
+            return "menu";
+        }else {
+            map.addAttribute("foodlist",foodDAO.getFoodListByType(request.getParameter("type")));
+            map.addAttribute("typesList",foodDAO.getTypesList());
+            return "menu";
+        }
     }
 
     @RequestMapping(value = "/error.htm",method = RequestMethod.GET)

@@ -78,10 +78,9 @@
                             <!-- Mega Menu -->
                             <li class="dropdown">
                                 <a href="${pageContext.request.contextPath}/menu.htm" >Menu </a>
-
                             </li>
                             <li><a href="about.html">About</a></li>
-                            <li class="w3pages"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Order</a>
+                            <li><a href="${pageContext.request.contextPath}/viewMyOrder.htm">My Order</a>
 
                             </li>
                             <li><a href="contact.html">Contact us</a></li>

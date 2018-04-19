@@ -13,7 +13,12 @@
 </head>
 <body>
     <table>
-        <c:forEach items="${requestScope.foodInCart}" var="f">
+        <tr>
+            <th>
+
+            </th>
+        </tr>
+        <c:forEach items="${requestScope.order}" var="f">
             <tr>
                 <td>${f.key.id}</td>
                 <td>${f.key.price}</td>

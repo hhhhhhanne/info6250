@@ -7,6 +7,7 @@ import com.neu.pojo.Food;
 import com.neu.pojo.Orders;
 import com.neu.pojo.Orderdetail;
 import com.neu.pojo.Users;
+import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 public class FoodController {
@@ -24,6 +27,10 @@ public class FoodController {
     public String addOrderPage(HttpServletRequest request) {
 //        String id = request.getParameter("items");
 //        System.out.println(items);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("foodInCart")==null){
+            return "redirect:/";
+        }
         return "cart";
     }
 
@@ -67,7 +74,7 @@ public class FoodController {
         return "cart";
     }
 
-    @RequestMapping(value = "/updateQuantity.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateQuantity.htm", method = RequestMethod.GET)
     public String updateQuantity(HttpServletRequest request, FoodDAO foodDAO) {
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         int id = Integer.parseInt(request.getParameter("food"));
@@ -75,6 +82,7 @@ public class FoodController {
         HashMap<Food, Integer> map = (HashMap<Food, Integer>) session.getAttribute("foodInCart");
         Food f = foodDAO.findFood(id);
         map.put(f, quantity);
+        session.setAttribute("foodInCart",map);
         return "cart";
     }
 
@@ -86,8 +94,7 @@ public class FoodController {
         session.setAttribute("foodInCart", null);
         Orders order = new Orders();
         String current = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format( new Date());
-
-//        order.setOrderTime(time);
+        order.setOrderTime(current);
         order.setAddress(request.getParameter("address"));
         String username = (String)session.getAttribute("user");
         Users user = userDAO.get(username);
@@ -96,6 +103,8 @@ public class FoodController {
         double totalprice = 0;
         for (Food food : map.keySet()) {
             Orderdetail orderdetail = new Orderdetail();
+            orderdetail.setFood(food);
+            orderdetail.setOrder(order);
             orderdetail.setNums(map.get(food));
             orderdetail.setPrice(food.getPrice() * map.get(food));
             orderDAO.addOrderdetail(orderdetail);
@@ -106,7 +115,23 @@ public class FoodController {
     }
 
     @RequestMapping(value = "/viewMyOrder.htm",method = RequestMethod.GET)
-    public String viewMyOrder(){
+    public String viewMyOrder(HttpServletRequest request,UserDAO userDAO,OrderDAO orderDAO){
+        Users user = userDAO.get((String) request.getSession().getAttribute("user"));
+        List<Orders> ordersList = orderDAO.getUserOrder(user);
+        request.setAttribute("ordersList",ordersList);
         return "viewmyorder";
+    }
+
+    @RequestMapping(value = "/viewDetail.htm", method = RequestMethod.GET)
+    public String orderDetail(OrderDAO orderDAO,HttpServletRequest request){
+        int orderid = Integer.parseInt(request.getParameter("orderid"));
+        List<Orderdetail> orderdetails = orderDAO.getOrderDetails(orderid);
+        request.setAttribute("orderDetails",orderdetails);
+        return "viewDetail";
+    }
+    @RequestMapping(value = "/selectByName.htm",method = RequestMethod.POST)
+    public String search(HttpServletRequest request){
+
+        return "menu";
     }
 }

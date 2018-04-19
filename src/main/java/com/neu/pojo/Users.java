@@ -29,7 +29,7 @@ public class Users implements java.io.Serializable {
 
 	/** full constructor */
 	public Users(String username, String nickname, String password,
-			String email, String phone, Integer level, Set orders) {
+			String email, String phone, Integer level, Set orders,Integer status) {
 		this.username = username;
 		this.nickname = nickname;
 		this.password = password;
@@ -37,6 +37,7 @@ public class Users implements java.io.Serializable {
 		this.phone = phone;
 		this.level = level;
 		this.orders = orders;
+		this.status = status;
 	}
 
 	// Property accessors

@@ -54,10 +54,10 @@
                             </li></c:otherwise>
                         </c:choose>
                         <li class="head-dpdn">
-                            <a href="offers.html"><i class="fa fa-gift" aria-hidden="true"></i> Service</a>
+                            <a href="#"><i class="fa fa-gift" aria-hidden="true"></i> Service</a>
                         </li>
                         <li class="head-dpdn">
-                            <a href="help.html"><i class="fa fa-question-circle" aria-hidden="true"></i> Help</a>
+                            <a href="#"><i class="fa fa-question-circle" aria-hidden="true"></i> Help</a>
                         </li>
                     </ul>
                 </div>
@@ -82,11 +82,11 @@
                                 <a href="${pageContext.request.contextPath}/menu.htm" >Menu </a>
 
                             </li>
-                            <li><a href="about.html">About</a></li>
-                            <li class="w3pages"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Order</a>
+                            <li><a href="#">About</a></li>
+                            <li><a href="${pageContext.request.contextPath}/viewMyOrder.htm" >My Order</a>
 
                             </li>
-                            <li><a href="contact.html">Contact us</a></li>
+                            <li><a href="#">Contact us</a></li>
                         </ul>
                     </div>
                     <div class="cart cart box_1">
@@ -125,24 +125,24 @@
         <div class="col-md-9 product-w3ls-right">
             <div class="product-top">
                 <h4>All Food</h4>
-                <ul>
-                    <li class="dropdown head-dpdn">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Filter By<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Lowest Price</a></li>
-                            <li><a href="#">Most Popular</a></li>
-                            <li><a href="#">Newest</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown head-dpdn">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Food Type<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Breakfast</a></li>
-                            <li><a href="#">Lunch</a></li>
-                            <li><a href="#">Dinner</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                <%--<ul>--%>
+                    <%--<li class="dropdown head-dpdn">--%>
+                        <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Filter By<span class="caret"></span></a>--%>
+                        <%--<ul class="dropdown-menu">--%>
+                            <%--<li><a href="#">Lowest Price</a></li>--%>
+                            <%--<li><a href="#">Most Popular</a></li>--%>
+                            <%--<li><a href="#">Newest</a></li>--%>
+                        <%--</ul>--%>
+                    <%--</li>--%>
+                    <%--<li class="dropdown head-dpdn">--%>
+                        <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Food Type<span class="caret"></span></a>--%>
+                        <%--<ul class="dropdown-menu">--%>
+                            <%--<li><a href="#">Breakfast</a></li>--%>
+                            <%--<li><a href="#">Lunch</a></li>--%>
+                            <%--<li><a href="#">Dinner</a></li>--%>
+                        <%--</ul>--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
                 <div class="clearfix"> </div>
             </div>
             <div class="products-row">
@@ -183,9 +183,9 @@
                 <div class="sidebar-row">
                     <h4>Type of food</h4>
                     <ul class="faq">
-                        <a href="selectAll_Food"><li>All food</li></a>
-                        <c:forEach var="t" items="${tlist }" >
-                            <a href="selectByTypes_Food?id=${t.id }"><li >${t.name }</li></a>
+                        <a href="${pageContext.request.contextPath}/menu.htm"><li>All food</li></a>
+                        <c:forEach var="t" items="${requestScope.typesList}" >
+                            <a href="${pageContext.request.contextPath}/menu.htm?type=${t.name}"><li >${t.name}</li></a>
                         </c:forEach>
                     </ul>
                     <div class="clearfix"> </div>

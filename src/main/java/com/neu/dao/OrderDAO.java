@@ -2,6 +2,7 @@ package com.neu.dao;
 
 import com.neu.pojo.Orders;
 import com.neu.pojo.Orderdetail;
+import com.neu.pojo.Users;
 import org.hibernate.HibernateException;
 import org.hibernate.query.Query;
 
@@ -33,6 +34,22 @@ public class OrderDAO extends DAO{
         getSession().save(orderdetail);
         commit();
         return orderdetail;
+    }
+    public List<Orders> getUserOrder(Users user){
+        begin();
+        Query q = getSession().createQuery("from Orders o where o.users=?");
+        q.setParameter(0,user);
+        List<Orders> ordersList = q.list();
+        commit();
+        return ordersList;
+    }
+    public List<Orderdetail> getOrderDetails(int orderid){
+        begin();
+        Query q = getSession().createQuery("from Orderdetail od where od.order.id=?");
+        q.setParameter(0,orderid);
+        List<Orderdetail> orderdetails = q.list();
+        commit();
+        return orderdetails;
     }
 
 }

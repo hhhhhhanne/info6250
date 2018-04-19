@@ -55,4 +55,7 @@
     </bean>
 
     <bean name="userDAO" class="com.neu.dao.UserDAO" scope="request"/>
+    <bean name="foodDAO" class="com.neu.dao.FoodDAO" scope="request"/>
+    <bean name="orderDAO" class="com.neu.dao.OrderDAO" scope="request"/>
+
 </beans>
