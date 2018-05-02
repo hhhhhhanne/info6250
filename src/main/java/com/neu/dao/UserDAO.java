@@ -1,9 +1,11 @@
 package com.neu.dao;
 
+import com.neu.exception.UserException;
 import com.neu.pojo.Users;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
+import java.util.List;
 
 
 public class UserDAO extends DAO {
@@ -22,11 +24,11 @@ public class UserDAO extends DAO {
             return user;
         } catch (HibernateException e) {
             rollback();
-            throw new Exception("Could not get user " + username, e);
+            throw new UserException("could not get user",e);
         }
     }
 
-    public Users get(String username){
+    public Users get(String username) throws UserException {
         try {
             begin();
             Query q = getSession().createQuery("from Users where username = :username");
@@ -36,11 +38,11 @@ public class UserDAO extends DAO {
             return user;
         }catch(Exception e){
             System.out.println(e.getMessage());
+            rollback();
+            throw new UserException("could not get user",e);
         }
-        return null;
-
     }
-    public Users getByEmail(String email){
+    public Users getByEmail(String email) throws UserException {
         try {
             begin();
             Query q = getSession().createQuery("from Users where email = :email");
@@ -50,8 +52,8 @@ public class UserDAO extends DAO {
             return user;
         }catch(Exception e){
             System.out.println(e.getMessage());
+            throw new UserException("could not get user",e);
         }
-        return null;
     }
 
 
@@ -62,10 +64,9 @@ public class UserDAO extends DAO {
             getSession().save(u);
             commit();
             return u;
-
         } catch (HibernateException e) {
             rollback();
-            throw new Exception("Exception while creating user: " + e.getMessage());
+            throw new UserException("could not create user",e);
         }
     }
 
@@ -84,13 +85,39 @@ public class UserDAO extends DAO {
             }else{
                 return false;
             }
-
         } catch (HibernateException e) {
             rollback();
-            throw new Exception("Exception while creating user: " + e.getMessage());
+            throw new UserException("could not update user",e);
         }
-
     }
 
+    public List<Users> getAllUsers() throws UserException {
+        try {
+            begin();
+            Query q =  getSession().createQuery("from Users ");
+            List<Users> usersList = q.list();
+            commit();
+            return usersList;
+        }catch (HibernateException e){
+            rollback();
+            throw new UserException("could not get userList");
+        }
+    }
+
+    public Users invalidateUser(int userId) throws UserException {
+        try {
+            begin();
+            Query q = getSession().createQuery("from Users u where u.id=?");
+            q.setParameter(0,userId);
+            Users u = (Users)q.uniqueResult();
+            u.setStatus(0);
+            getSession().update(u);
+            commit();
+            return u;
+        }catch (HibernateException e){
+            rollback();
+            throw new UserException("could not delete");
+        }
+    }
 
 }

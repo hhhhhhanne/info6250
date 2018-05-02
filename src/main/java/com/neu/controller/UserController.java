@@ -2,6 +2,7 @@ package com.neu.controller;
 
 import com.captcha.botdetect.web.servlet.Captcha;
 import com.neu.dao.UserDAO;
+import com.neu.exception.UserException;
 import com.neu.pojo.Users;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -12,7 +13,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Random;
 
@@ -23,17 +26,27 @@ public class UserController {
         return "login";
     }
     @RequestMapping(value = "/user/login.htm", method = RequestMethod.POST)
-    public String handleLoginForm(HttpSession session,HttpServletRequest request, UserDAO userDao, ModelMap map) {
+    public String handleLoginForm(HttpSession session, HttpServletRequest request, UserDAO userDao, ModelMap map, HttpServletResponse response) {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String remember = request.getParameter("remember");
         try {
             Users u = userDao.get(username, password);
 
             if (u != null && u.getLevel() == 1 && u.getStatus() ==1) {
                 session.setAttribute("user",u.getUsername());
+                session.setAttribute("role",u.getLevel());
+                if (remember!=null){
+                    Cookie cookie = new Cookie("name",u.getUsername());
+                    cookie.setMaxAge(5 * 60);
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
+                }
                 return "redirect:/";
             } else if (u != null && u.getLevel() == 0 && u.getStatus() == 1) {
+                session.setAttribute("role",u.getLevel());
+                session.setAttribute("user",u.getUsername());
                 return "admin-dashboard";
             } else {
                 map.addAttribute("errorMessage", "Invalid username/password!");
@@ -49,7 +62,7 @@ public class UserController {
         return "register";
     }
     @RequestMapping(value = "/user/create.htm", method = RequestMethod.POST)
-    public String handleCreateForm(HttpServletRequest request, UserDAO userDao, ModelMap map) {
+    public String handleCreateForm(HttpServletRequest request, UserDAO userDao, ModelMap map) throws UserException {
         Captcha captcha = Captcha.load(request, "CaptchaObject");
         String captchaCode = request.getParameter("captchaCode");
         HttpSession session = request.getSession();
@@ -60,6 +73,10 @@ public class UserController {
                 return "register";
             }
             String useremail =request.getParameter("useremail");
+            if (userDao.getByEmail(useremail)!=null){
+                map.addAttribute("errorMessage", "Email Exists!");
+                return "register";
+            }
             String password = request.getParameter("password");
             Users user = new Users();
             user.setUsername(username);
@@ -119,7 +136,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/forgotpassword.htm", method = RequestMethod.POST)
-    public String handleForgotPasswordForm(HttpServletRequest request, UserDAO userDao) {
+    public String handleForgotPasswordForm(HttpServletRequest request, UserDAO userDao) throws UserException {
         String username = request.getParameter("username");
         Captcha captcha = Captcha.load(request, "CaptchaObject");
         String captchaCode = request.getParameter("captchaCode");
@@ -137,10 +154,6 @@ public class UserController {
     @RequestMapping(value = "user/validateemail.htm", method = RequestMethod.GET)
     public String validateEmail(HttpServletRequest request, UserDAO userDao, ModelMap map) {
 
-        // The user will be sent the following link when the use registers
-        // This is the format of the email
-        // http://hostname:8080/lab10/user/validateemail.htm?email=useremail&key1=<random_number>&key2=<body
-        // of the email that when user registers>
         HttpSession session = request.getSession();
         String username = request.getParameter("username");
         int key1 = Integer.parseInt(request.getParameter("key1"));
@@ -151,7 +164,6 @@ public class UserController {
 
         if ((Integer)(session.getAttribute("key1")) == key1 && ((Integer)session.getAttribute("key2"))== key2) {
             try {
-                System.out.println("HI________");
                 boolean updateStatus = userDao.updateUser(username);
                 if (updateStatus) {
                     return "login";
@@ -168,12 +180,10 @@ public class UserController {
             map.addAttribute("resendLink", true);
             return "error";
         }
-
         return "user-login";
-
     }
     @RequestMapping(value = "user/resendemail.htm", method = RequestMethod.POST)
-    public String resendEmail(HttpServletRequest request, UserDAO userDAO) {
+    public String resendEmail(HttpServletRequest request, UserDAO userDAO) throws UserException {
         HttpSession session = request.getSession();
         String username = request.getParameter("username");
         Users u = userDAO.get(username);
@@ -195,9 +205,23 @@ public class UserController {
     }
 
     @RequestMapping(value = "logout.htm",method = RequestMethod.GET)
-    public String logout(HttpServletRequest request){
+    public String logout(HttpServletRequest request,HttpServletResponse response){
         HttpSession session = request.getSession();
         session.invalidate();
+        Cookie[] cookies = request.getCookies();
+        if (null==cookies) {
+            System.out.println("no cookie");
+        } else {
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("name")){
+                    cookie.setValue(null);
+                    cookie.setMaxAge(0);
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
+                    break;
+                }
+            }
+        }
         return "redirect:/";
     }
 

@@ -13,7 +13,7 @@
 </head>
 <body>
 <c:if test="${sessionScope.user==null}">
-<c:redirect url="${pageContext.request.contextPath}/user/login.htm"/>
+<c:redirect url="/user/login.htm"/>
 </c:if>
 <h2>${sessionScope.user}'s Order</h2>
 <table>

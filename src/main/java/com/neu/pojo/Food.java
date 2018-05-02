@@ -1,14 +1,9 @@
 package com.neu.pojo;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Food entity. @author MyEclipse Persistence Tools
- */
 
 public class Food implements java.io.Serializable {
 
@@ -142,5 +137,10 @@ public class Food implements java.io.Serializable {
 	@Override
 	public int hashCode() {
 		return this.id.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 }

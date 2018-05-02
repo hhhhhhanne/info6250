@@ -3,9 +3,7 @@ package com.neu.pojo;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Types entity. @author MyEclipse Persistence Tools
- */
+
 
 public class Types implements java.io.Serializable {
 

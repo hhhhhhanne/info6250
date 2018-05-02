@@ -1,8 +1,6 @@
 package com.neu.pojo;
 
-/**
- * Orderdetail entity. @author MyEclipse Persistence Tools
- */
+
 
 public class Orderdetail implements java.io.Serializable {
 

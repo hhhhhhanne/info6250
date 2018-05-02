@@ -3,12 +3,16 @@ package com.neu.controller;
 import com.neu.dao.FoodDAO;
 import com.neu.dao.OrderDAO;
 import com.neu.dao.UserDAO;
+import com.neu.exception.FoodException;
+import com.neu.exception.OrderException;
+import com.neu.exception.UserException;
 import com.neu.pojo.Food;
 import com.neu.pojo.Orders;
 import com.neu.pojo.Orderdetail;
 import com.neu.pojo.Users;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -43,7 +47,7 @@ public class FoodController {
     }
 
     @RequestMapping(value = "/addToCart.htm", method = RequestMethod.POST)
-    public String addToCart(HttpServletRequest request, FoodDAO foodDAO, HttpSession session) {
+    public String addToCart(HttpServletRequest request, FoodDAO foodDAO, HttpSession session) throws FoodException {
         String id = request.getParameter("add");
         String name = request.getParameter("w3ls_item");
         String price = request.getParameter("amount");
@@ -65,7 +69,7 @@ public class FoodController {
     }
 
     @RequestMapping(value = "/delete.htm", method = RequestMethod.GET)
-    public String delete(HttpServletRequest request, FoodDAO foodDAO) {
+    public String delete(HttpServletRequest request, FoodDAO foodDAO) throws FoodException {
         int id = Integer.parseInt(request.getParameter("food"));
         HttpSession session = request.getSession();
         HashMap<Food, Integer> map = (HashMap<Food, Integer>) session.getAttribute("foodInCart");
@@ -75,7 +79,7 @@ public class FoodController {
     }
 
     @RequestMapping(value = "/updateQuantity.htm", method = RequestMethod.GET)
-    public String updateQuantity(HttpServletRequest request, FoodDAO foodDAO) {
+    public String updateQuantity(HttpServletRequest request, FoodDAO foodDAO) throws FoodException {
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         int id = Integer.parseInt(request.getParameter("food"));
         HttpSession session = request.getSession();
@@ -115,7 +119,7 @@ public class FoodController {
     }
 
     @RequestMapping(value = "/viewMyOrder.htm",method = RequestMethod.GET)
-    public String viewMyOrder(HttpServletRequest request,UserDAO userDAO,OrderDAO orderDAO){
+    public String viewMyOrder(HttpServletRequest request,UserDAO userDAO,OrderDAO orderDAO) throws UserException, OrderException {
         Users user = userDAO.get((String) request.getSession().getAttribute("user"));
         List<Orders> ordersList = orderDAO.getUserOrder(user);
         request.setAttribute("ordersList",ordersList);
@@ -123,15 +127,22 @@ public class FoodController {
     }
 
     @RequestMapping(value = "/viewDetail.htm", method = RequestMethod.GET)
-    public String orderDetail(OrderDAO orderDAO,HttpServletRequest request){
+    public String orderDetail(OrderDAO orderDAO,HttpServletRequest request) throws OrderException {
         int orderid = Integer.parseInt(request.getParameter("orderid"));
         List<Orderdetail> orderdetails = orderDAO.getOrderDetails(orderid);
         request.setAttribute("orderDetails",orderdetails);
         return "viewDetail";
     }
     @RequestMapping(value = "/selectByName.htm",method = RequestMethod.POST)
-    public String search(HttpServletRequest request){
-
-        return "menu";
+    public String search(HttpServletRequest request,ModelMap map,FoodDAO foodDAO) throws FoodException {
+        String name = request.getParameter("name");
+        String type = request.getParameter("typesName");
+        if (type.equals("0")){
+            return "redirect:/browseAll.htm";
+        }else {
+            List<Food> foodList = foodDAO.searchFood(name,type);
+            map.addAttribute("foodlist",foodList);
+            return "menu";
+        }
     }
 }

@@ -90,8 +90,8 @@
                         </ul>
                     </div>
                     <div class="cart cart box_1">
-                        <form action="#" method="post" class="last">
-                            <input type="hidden" name="cmd" value="_cart" />
+                        <form action="${pageContext.request.contextPath}/cart.htm" method="get" class="last">
+                            <%--<input type="hidden" name="cmd" value="_cart" />--%>
                             <input type="hidden" name="display" value="1" />
                             <button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
                         </form>
@@ -165,9 +165,9 @@
                                         <input type="hidden" name="add" value="${f.id }">
                                         <input type="hidden" name="w3ls_item" value="${f.name }">
                                         <input type="hidden" name="amount" value="${f.price }">
-                                        <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i>加入购物车</button>
+                                        <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to Cart</button>
                                         <span class="w3-agile-line"> </span>
-                                        <a href="food.html" >更多</a>
+                                        <a href="food.html" >More</a>
                                     </form>
                                 </div>
                             </div>

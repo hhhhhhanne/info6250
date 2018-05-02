@@ -5,9 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Orders entity. @author MyEclipse Persistence Tools
- */
+
 
 public class Orders implements java.io.Serializable {
 

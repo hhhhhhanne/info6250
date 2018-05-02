@@ -1,6 +1,7 @@
 package com.neu.controller;
 
 import com.neu.dao.FoodDAO;
+import com.neu.exception.FoodException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class IndexController {
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String showIndex(ModelMap map,FoodDAO foodDAO){
+    public String showIndex(ModelMap map,FoodDAO foodDAO) throws FoodException {
         map.addAttribute("foodlist",foodDAO.getFoodList());
         map.addAttribute("typesList",foodDAO.getTypesList());
         return "index";
@@ -23,7 +24,7 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/menu.htm",method = RequestMethod.GET)
-    public String showMenu(ModelMap map, FoodDAO foodDAO, HttpServletRequest request){
+    public String showMenu(ModelMap map, FoodDAO foodDAO, HttpServletRequest request) throws FoodException {
         if (request.getParameter("type")==null){
             map.addAttribute("foodlist",foodDAO.getFoodList());
             map.addAttribute("typesList",foodDAO.getTypesList());
@@ -37,4 +38,9 @@ public class IndexController {
 
     @RequestMapping(value = "/error.htm",method = RequestMethod.GET)
     public String showError(){return "error";}
+
+    @RequestMapping(value = "/browseAll.htm",method = RequestMethod.GET)
+    public String showBrowse(){
+        return "browseAll";
+    }
 }

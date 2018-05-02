@@ -15,7 +15,13 @@
     <table>
         <tr>
             <th>
-
+                food id
+            </th>
+            <th>
+                price
+            </th>
+            <th>
+                quantity
             </th>
         </tr>
         <c:forEach items="${requestScope.order}" var="f">

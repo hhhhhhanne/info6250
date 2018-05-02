@@ -44,6 +44,11 @@
         </tr>
     </c:forEach>
 </table>
-<a href="${pageContext.request.contextPath}/viewMyOrder.htm">Back to My Order</a>
+<c:if test="${sessionScope.role==1}">
+    <a href="${pageContext.request.contextPath}/viewMyOrder.htm">Back to My Order</a>
+</c:if>
+<c:if test="${sessionScope.role!=1}">
+    <a href="${pageContext.request.contextPath}/admin/viewAllOrders.htm">Back to Orders</a>
+</c:if>
 </body>
 </html>

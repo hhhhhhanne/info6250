@@ -21,9 +21,6 @@
 </head>
 <body>
 
-
-
-
 <!-- banner -->
 <div class="banner">
     <!-- header -->
@@ -87,7 +84,7 @@
                         </ul>
                     </div>
                     <div class="cart cart box_1">
-                        <form action="${pageContext.request.contextPath}/cart.htm" method="post" class="last">
+                        <form action="${pageContext.request.contextPath}/cart.htm" method="get" class="last">
                             <%--<input type="hidden" name="cmd" value="_cart" />--%>
                             <input type="hidden" name="display" value="1" />
                             <button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
@@ -106,10 +103,10 @@
             <div class="agileits_search">
                 <form action="${pageContext.request.contextPath}/selectByName.htm" method="post">
                     <input name="name" type="text" placeholder="search for food" >
-                    <select id="agileinfo_search" name="typesId" required>
-                        <option value="0">All</option>
-                        <c:forEach var="t" items="${requestScope.typeList}">
-                            <option value="${t.id}">${t.name}</option>
+                    <select id="agileinfo_search" name="typesName" required>
+                        <option value="0">Browse All</option>
+                        <c:forEach var="t" items="${requestScope.typesList}">
+                            <option value="${t.name}">${t.name}</option>
                         </c:forEach>
                     </select>
                     <input type="submit" value="Search">
